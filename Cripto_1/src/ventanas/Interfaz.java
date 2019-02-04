@@ -298,7 +298,7 @@ public class Interfaz extends javax.swing.JFrame {
         // TODO add your handling code here
         if(getArchivo()!=null)
         {
-            String file = "C:\\Users\\josue\\Documents\\NetBeansProjects\\Cripto_1\\Salida\\out.txt"; 
+            String file = "C:\\Users\\josue\\Documents\\Criptography\\Cripto_1\\Salida\\out.txt"; 
    
          try{ 
          //definiendo la ruta en la propiedad file
@@ -346,11 +346,11 @@ public class Interfaz extends javax.swing.JFrame {
     
     public void escribirArchivo(StringBuilder letra) throws IOException
     {
-        File out=new File("C:\\Users\\josue\\Documents\\NetBeansProjects\\Cripto_1\\Salida\\out.txt");
+        File out=new File("C:\\Users\\josue\\Documents\\Criptography\\Cripto_1\\Salida\\out.txt");
         
         if(out.delete()){}
         
-        File nuevo=new File("C:\\Users\\josue\\Documents\\NetBeansProjects\\Cripto_1\\Salida\\out.txt");
+        File nuevo=new File("C:\\Users\\josue\\Documents\\Criptography\\Cripto_1\\Salida\\out.txt");
         
         try (PrintWriter fw = new PrintWriter(nuevo,"utf-8")) {
             fw.println(letra.toString());

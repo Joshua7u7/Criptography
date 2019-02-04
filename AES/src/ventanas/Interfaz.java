@@ -204,7 +204,7 @@ public class Interfaz extends javax.swing.JFrame {
     private void OutputActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_OutputActionPerformed
         if(getArchivo()!=null)
         {
-            String file = "C:\\Users\\josue\\Documents\\NetBeansProjects\\AES\\Salida\\salida.txt"; 
+            String file = "C:\\Users\\josue\\Documents\\Criptography\\AES\\Salida\\salida.txt"; 
    
          try{ 
          //definiendo la ruta en la propiedad file
@@ -247,6 +247,7 @@ public class Interfaz extends javax.swing.JFrame {
         
         try {
             escribirArchivo(encriptador.encrypt(this.JKEY.getText(),"0123456789ABCDEF",texto_s));
+            JOptionPane.showMessageDialog(null,"You´ve encrypted your message successfully");
         } catch (Exception ex) {
             Logger.getLogger(Interfaz.class.getName()).log(Level.SEVERE, null, ex);
         }
@@ -278,6 +279,7 @@ public class Interfaz extends javax.swing.JFrame {
         
         try {
             escribirArchivo(encriptador.decrypt(this.JKEY.getText(),"0123456789ABCDEF",texto_s));
+            JOptionPane.showMessageDialog(null,"You´ve decrypted your message successfully");
         } catch (Exception ex) {
             Logger.getLogger(Interfaz.class.getName()).log(Level.SEVERE, null, ex);
         }
@@ -310,11 +312,11 @@ public class Interfaz extends javax.swing.JFrame {
     
     public void escribirArchivo(String letra) throws IOException
     {
-        File out=new File("C:\\Users\\josue\\Documents\\NetBeansProjects\\AES\\Salida\\salida.txt");
+        File out=new File("C:\\Users\\josue\\Documents\\Criptography\\AES\\Salida\\salida.txt");
         
         if(out.delete()){}
         
-        File nuevo=new File("C:\\Users\\josue\\Documents\\NetBeansProjects\\AES\\Salida\\salida.txt");
+        File nuevo=new File("C:\\Users\\josue\\Documents\\Criptography\\AES\\Salida\\salida.txt");
         
         try (PrintWriter fw = new PrintWriter(nuevo,"utf-8")) {
             fw.println(letra);

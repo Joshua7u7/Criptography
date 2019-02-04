@@ -1,3 +1,12 @@
-Maria Isabel Hernandez Perez
+Por medio de la presente se muestran las especificaciones que se concordaron con
+el cliente de nuestro sistema, las cuales se expresan en los siguientes puntos:
+
+2. El curso constará de 7 materias (Matemáticas, Español, Historia, Literatura, Biología, Química y Física)
+las cuales serán impartidas por distintos profesores
+3. Se efectuará una evaluación a la semana para medir el progreso de los alumnos.
+4. Los estudiantes tendrán un número de matrícula con el cual serán identificados en el sistema.
+5. El curso tendrá una duración de 4 meses.
+3. El director de los cursos no podrá subir las calificaciones, solamente los profesores 
+de las asigaturas.
 
 
