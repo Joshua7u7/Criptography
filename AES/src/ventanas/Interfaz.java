@@ -233,11 +233,12 @@ public class Interfaz extends javax.swing.JFrame {
         BufferedReader b = new BufferedReader(f);
         
         String cadena="";
-        String texto_s="";
+        StringBuffer texto_s=new StringBuffer();
         try {
             while((cadena=b.readLine())!=null)
             {
-                texto_s+=cadena;
+                texto_s.append(cadena);
+                texto_s.append("\r\n");
             }
         } catch (IOException ex) {
             Logger.getLogger(Interfaz.class.getName()).log(Level.SEVERE, null, ex);
@@ -246,7 +247,7 @@ public class Interfaz extends javax.swing.JFrame {
         Encryption encriptador=new Encryption();
         
         try {
-            escribirArchivo(encriptador.encrypt(this.JKEY.getText(),"0123456789ABCDEF",texto_s));
+            escribirArchivo(encriptador.encrypt(this.JKEY.getText(),"0123456789ABCDEF",texto_s.toString()));
             JOptionPane.showMessageDialog(null,"You´ve encrypted your message successfully");
         } catch (Exception ex) {
             Logger.getLogger(Interfaz.class.getName()).log(Level.SEVERE, null, ex);
@@ -265,11 +266,12 @@ public class Interfaz extends javax.swing.JFrame {
         BufferedReader b = new BufferedReader(f);
         
         String cadena="";
-        String texto_s="";
+        StringBuffer texto_s=new StringBuffer();
         try {
             while((cadena=b.readLine())!=null)
             {
-                texto_s+=cadena;
+                texto_s.append(cadena);
+                texto_s.append("\r\n");
             }
         } catch (IOException ex) {
             Logger.getLogger(Interfaz.class.getName()).log(Level.SEVERE, null, ex);
@@ -278,7 +280,7 @@ public class Interfaz extends javax.swing.JFrame {
         Encryption encriptador=new Encryption();
         
         try {
-            escribirArchivo(encriptador.decrypt(this.JKEY.getText(),"0123456789ABCDEF",texto_s));
+            escribirArchivo(encriptador.decrypt(this.JKEY.getText(),"0123456789ABCDEF",texto_s.toString()));
             JOptionPane.showMessageDialog(null,"You´ve decrypted your message successfully");
         } catch (Exception ex) {
             Logger.getLogger(Interfaz.class.getName()).log(Level.SEVERE, null, ex);
