@@ -35,8 +35,7 @@ public class Encryption {
             IvParameterSpec ivParameterSpec = new IvParameterSpec(iv.getBytes());
             cipher.init(Cipher.ENCRYPT_MODE, skeySpec, ivParameterSpec);
             byte[] encrypted = cipher.doFinal(cleartext.getBytes());
-           // return new String(encodeBase64(encrypted));
-            return new String(Base64.getDecoder().decode(encrypted));
+           return new String(encodeBase64(encrypted));
     }
  
     /**
