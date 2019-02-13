@@ -101,11 +101,18 @@ public final class Afin
         
         int[] inverso=euclides_Extend(Alpha);
         
+        for(int i=0;i<256;i++){
+            if((Beta+i)%256==0){
+                Beta=i;
+                i=270;
+            }
+        }
+        
         if(inverso[0]>0)
         {
-            for(int i=0;i<aux.length;i++)
+            for(int i=1;i<aux.length-1;i++)
             {
-                int a=(int)aux[i]-Beta;
+                int a=(int)aux[i]+Beta;
                 int b=a*inverso[0];
                 aux[i]=(char)(b%256);
                 nuevo.append(aux[i]);
@@ -113,9 +120,9 @@ public final class Afin
         }
         else
         {
-            for(int i=0;i<aux.length;i++)
+            for(int i=1;i<aux.length-1;i++)
             {
-                int a=(int)aux[i]-Beta;
+                int a=(int)aux[i]+Beta;
                 int b=a*(inverso[0]+256);
                 aux[i]=(char)(b%256);
                 nuevo.append(aux[i]);
