@@ -79,12 +79,9 @@ public class RGB {
      * @param args the command line arguments
      * @throws java.io.FileNotFoundException
      */
-    public static void main(String[] args) throws FileNotFoundException, IOException 
+   
+    public void hacerTodo() throws IOException
     {
-        RGB imagen = new RGB("C:\\Users\\josue\\Documents\\Criptography\\RGB\\src\\Imagenes\\azul.bmp");
-        BufferedImage buffer =imagen.addImage();
-        
-        imagen.crearImagen(buffer);
         
     }
     
