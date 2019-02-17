@@ -24,8 +24,16 @@ public class RGB {
     private int alto;
     private int ancho;
     private String path;
+    private int r;
+    private int g;
+    private int b;
     
-    public RGB(String imagen) { this.path=imagen; }
+    public RGB(String imagen,int r,int g,int b) { 
+        this.path=imagen;
+        this.r=r;
+        this.g=g;
+        this.b=b;
+    }
     
     public BufferedImage addImage() throws FileNotFoundException, IOException
     {
@@ -54,7 +62,7 @@ public class RGB {
                 int valG = c.getGreen();
                 int valB = c.getBlue();
                 
-                Color nuevo =new Color((valR+100)%255,(valG+216)%255,(valB+50)%255);
+                Color nuevo =new Color((valR+this.r)%255,(valG+this.g)%255,(valB+this.b)%255);
                 
                 salida.setRGB(x, y, nuevo.getRGB());
                 
@@ -75,14 +83,10 @@ public class RGB {
     
     public int getAncho() {return this.ancho;}
     
+    
     /**
      * @param args the command line arguments
      * @throws java.io.FileNotFoundException
      */
-   
-    public void hacerTodo() throws IOException
-    {
-        
-    }
     
 }

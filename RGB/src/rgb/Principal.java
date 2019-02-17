@@ -7,6 +7,7 @@ package rgb;
 
 import java.awt.image.BufferedImage;
 import java.io.IOException;
+import static java.lang.Integer.parseInt;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.swing.JFileChooser;
@@ -47,6 +48,12 @@ public class Principal extends javax.swing.JFrame {
         Salida = new javax.swing.JButton();
         Modify = new javax.swing.JButton();
         Salir = new javax.swing.JButton();
+        R = new javax.swing.JTextField();
+        G = new javax.swing.JTextField();
+        B = new javax.swing.JTextField();
+        R_A = new javax.swing.JLabel();
+        G_A = new javax.swing.JLabel();
+        B_A = new javax.swing.JLabel();
         fonfo = new javax.swing.JLabel();
 
         Selection1.setFont(new java.awt.Font("Times New Roman", 3, 24)); // NOI18N
@@ -91,7 +98,7 @@ public class Principal extends javax.swing.JFrame {
                 EntradaActionPerformed(evt);
             }
         });
-        getContentPane().add(Entrada, new org.netbeans.lib.awtextra.AbsoluteConstraints(80, 300, 180, 60));
+        getContentPane().add(Entrada, new org.netbeans.lib.awtextra.AbsoluteConstraints(60, 160, 180, 60));
 
         Salida.setFont(new java.awt.Font("Times New Roman", 3, 24)); // NOI18N
         Salida.setForeground(new java.awt.Color(255, 255, 255));
@@ -103,7 +110,7 @@ public class Principal extends javax.swing.JFrame {
                 SalidaActionPerformed(evt);
             }
         });
-        getContentPane().add(Salida, new org.netbeans.lib.awtextra.AbsoluteConstraints(370, 300, 180, 60));
+        getContentPane().add(Salida, new org.netbeans.lib.awtextra.AbsoluteConstraints(60, 260, 180, 60));
 
         Modify.setFont(new java.awt.Font("Times New Roman", 3, 24)); // NOI18N
         Modify.setForeground(new java.awt.Color(255, 255, 255));
@@ -115,7 +122,7 @@ public class Principal extends javax.swing.JFrame {
                 ModifyActionPerformed(evt);
             }
         });
-        getContentPane().add(Modify, new org.netbeans.lib.awtextra.AbsoluteConstraints(650, 300, 180, 60));
+        getContentPane().add(Modify, new org.netbeans.lib.awtextra.AbsoluteConstraints(60, 360, 180, 60));
 
         Salir.setFont(new java.awt.Font("Times New Roman", 3, 24)); // NOI18N
         Salir.setForeground(new java.awt.Color(255, 255, 255));
@@ -128,6 +135,30 @@ public class Principal extends javax.swing.JFrame {
             }
         });
         getContentPane().add(Salir, new org.netbeans.lib.awtextra.AbsoluteConstraints(70, 20, 180, 60));
+
+        R.setFont(new java.awt.Font("Times New Roman", 3, 24)); // NOI18N
+        getContentPane().add(R, new org.netbeans.lib.awtextra.AbsoluteConstraints(340, 300, 120, 40));
+
+        G.setFont(new java.awt.Font("Times New Roman", 3, 24)); // NOI18N
+        getContentPane().add(G, new org.netbeans.lib.awtextra.AbsoluteConstraints(490, 300, 130, 40));
+
+        B.setFont(new java.awt.Font("Times New Roman", 3, 24)); // NOI18N
+        getContentPane().add(B, new org.netbeans.lib.awtextra.AbsoluteConstraints(650, 300, 140, 40));
+
+        R_A.setFont(new java.awt.Font("Times New Roman", 3, 24)); // NOI18N
+        R_A.setForeground(new java.awt.Color(255, 255, 255));
+        R_A.setText("R");
+        getContentPane().add(R_A, new org.netbeans.lib.awtextra.AbsoluteConstraints(390, 250, -1, -1));
+
+        G_A.setFont(new java.awt.Font("Times New Roman", 3, 24)); // NOI18N
+        G_A.setForeground(new java.awt.Color(255, 255, 255));
+        G_A.setText("G");
+        getContentPane().add(G_A, new org.netbeans.lib.awtextra.AbsoluteConstraints(550, 250, -1, -1));
+
+        B_A.setFont(new java.awt.Font("Times New Roman", 3, 24)); // NOI18N
+        B_A.setForeground(new java.awt.Color(255, 255, 255));
+        B_A.setText("B");
+        getContentPane().add(B_A, new org.netbeans.lib.awtextra.AbsoluteConstraints(710, 250, -1, -1));
 
         fonfo.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Imagenes/fondo.png"))); // NOI18N
         getContentPane().add(fonfo, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, 850, 470));
@@ -162,7 +193,7 @@ public class Principal extends javax.swing.JFrame {
 
     private void ModifyActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_ModifyActionPerformed
         String ruta=imagen.getRuta();
-        RGB imagen_ = new RGB(ruta);
+        RGB imagen_ = new RGB(ruta,getR(),getG(),getB());
         BufferedImage buffer=null;
         try {
             buffer = imagen_.addImage();
@@ -183,6 +214,23 @@ public class Principal extends javax.swing.JFrame {
         System.exit(0);
     }//GEN-LAST:event_SalirActionPerformed
 
+    public int getR()
+    {
+        int r = parseInt(this.R.getText());
+        return r;
+    }
+    
+    public int getG()
+    {
+        int r = parseInt(this.G.getText());
+        return r;
+    }
+    
+    public int getB()
+    {
+        int r = parseInt(this.B.getText());
+        return r;
+    }
     
     /**
      * @param args the command line arguments
@@ -220,9 +268,15 @@ public class Principal extends javax.swing.JFrame {
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JTextField B;
+    private javax.swing.JLabel B_A;
     private javax.swing.JButton Entrada;
+    private javax.swing.JTextField G;
+    private javax.swing.JLabel G_A;
     private javax.swing.JButton Modify;
     private javax.swing.JLabel Nombre;
+    private javax.swing.JTextField R;
+    private javax.swing.JLabel R_A;
     private javax.swing.JButton Salida;
     private javax.swing.JButton Salir;
     private javax.swing.JLabel Sel;
