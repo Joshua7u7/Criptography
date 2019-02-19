@@ -54,6 +54,7 @@ public class Principal extends javax.swing.JFrame {
         R_A = new javax.swing.JLabel();
         G_A = new javax.swing.JLabel();
         B_A = new javax.swing.JLabel();
+        Decrypt = new javax.swing.JButton();
         fonfo = new javax.swing.JLabel();
 
         Selection1.setFont(new java.awt.Font("Times New Roman", 3, 24)); // NOI18N
@@ -115,14 +116,14 @@ public class Principal extends javax.swing.JFrame {
         Modify.setFont(new java.awt.Font("Times New Roman", 3, 24)); // NOI18N
         Modify.setForeground(new java.awt.Color(255, 255, 255));
         Modify.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Imagenes/fboton.jpg"))); // NOI18N
-        Modify.setText("Modify image");
+        Modify.setText("Encrypt");
         Modify.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
         Modify.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 ModifyActionPerformed(evt);
             }
         });
-        getContentPane().add(Modify, new org.netbeans.lib.awtextra.AbsoluteConstraints(60, 360, 180, 60));
+        getContentPane().add(Modify, new org.netbeans.lib.awtextra.AbsoluteConstraints(290, 370, 180, 60));
 
         Salir.setFont(new java.awt.Font("Times New Roman", 3, 24)); // NOI18N
         Salir.setForeground(new java.awt.Color(255, 255, 255));
@@ -159,6 +160,18 @@ public class Principal extends javax.swing.JFrame {
         B_A.setForeground(new java.awt.Color(255, 255, 255));
         B_A.setText("B");
         getContentPane().add(B_A, new org.netbeans.lib.awtextra.AbsoluteConstraints(710, 250, -1, -1));
+
+        Decrypt.setFont(new java.awt.Font("Times New Roman", 3, 24)); // NOI18N
+        Decrypt.setForeground(new java.awt.Color(255, 255, 255));
+        Decrypt.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Imagenes/fboton.jpg"))); // NOI18N
+        Decrypt.setText("Decrypt");
+        Decrypt.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
+        Decrypt.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                DecryptActionPerformed(evt);
+            }
+        });
+        getContentPane().add(Decrypt, new org.netbeans.lib.awtextra.AbsoluteConstraints(580, 370, 180, 60));
 
         fonfo.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Imagenes/fondo.png"))); // NOI18N
         getContentPane().add(fonfo, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, 850, 470));
@@ -202,7 +215,7 @@ public class Principal extends javax.swing.JFrame {
         }
         
         try {
-            imagen_.crearImagen(buffer);
+            imagen_.crearImagen(buffer,1);
         } catch (IOException ex) {
             Logger.getLogger(Principal.class.getName()).log(Level.SEVERE, null, ex);
         }
@@ -213,6 +226,25 @@ public class Principal extends javax.swing.JFrame {
     private void SalirActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_SalirActionPerformed
         System.exit(0);
     }//GEN-LAST:event_SalirActionPerformed
+
+    private void DecryptActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_DecryptActionPerformed
+        String ruta=imagen.getRuta();
+        RGB imagen_ = new RGB(ruta,getR(),getG(),getB());
+        BufferedImage buffer=null;
+        try {
+            buffer = imagen_.addImage();
+        } catch (IOException ex) {
+            Logger.getLogger(Principal.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        
+        try {
+            imagen_.crearImagen(buffer,2);
+        } catch (IOException ex) {
+            Logger.getLogger(Principal.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        
+        JOptionPane.showMessageDialog(null,"Image modify successfully");
+    }//GEN-LAST:event_DecryptActionPerformed
 
     public int getR()
     {
@@ -270,6 +302,7 @@ public class Principal extends javax.swing.JFrame {
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JTextField B;
     private javax.swing.JLabel B_A;
+    private javax.swing.JButton Decrypt;
     private javax.swing.JButton Entrada;
     private javax.swing.JTextField G;
     private javax.swing.JLabel G_A;

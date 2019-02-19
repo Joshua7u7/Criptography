@@ -47,7 +47,7 @@ public class RGB {
         return imageL;
     }
     
-    public void crearImagen(BufferedImage buffer) throws IOException
+    public void crearImagen(BufferedImage buffer, int n) throws IOException
     {
         BufferedImage salida = new BufferedImage(getAncho(), getAlto(), BufferedImage.TYPE_INT_RGB);
         
@@ -62,7 +62,20 @@ public class RGB {
                 int valG = c.getGreen();
                 int valB = c.getBlue();
                 
-                Color nuevo =new Color((valR+this.r)%255,(valG+this.g)%255,(valB+this.b)%255);
+                Color nuevo=null;
+                if(n==1)
+                    nuevo =new Color((valR+this.r)%255,(valG+this.g)%255,(valB+this.b)%255);
+                
+                if(n==2)
+                {
+                    int j,o,s;
+                    if((j=(valR-this.r)%255)<=0) j=j+255;
+                    if((o=(valG-this.g)%255)<=0) o=o+255;
+                    if((s=(valB-this.b)%255)<=0) s=s+255;
+                    //j%=255; o%=255; s%=255;
+                    nuevo =new Color(j,o,s);
+                }
+                    
                 
                 salida.setRGB(x, y, nuevo.getRGB());
                 
