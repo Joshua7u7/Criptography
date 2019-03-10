@@ -5,6 +5,7 @@
  */
 package Clases.Bloques;
 
+import java.util.Base64;
 import javax.crypto.Cipher;
 import javax.crypto.spec.IvParameterSpec;
 import javax.crypto.spec.SecretKeySpec;
@@ -32,8 +33,9 @@ public class ECB
             Cipher cipher = Cipher.getInstance(cI);
             SecretKeySpec skeySpec = new SecretKeySpec(key.getBytes(), alg);
             IvParameterSpec ivParameterSpec = new IvParameterSpec(iv.getBytes());
+            byte[] enc = (encrypted);
             cipher.init(Cipher.DECRYPT_MODE, skeySpec, ivParameterSpec);
-            byte[] decrypted = cipher.doFinal(encrypted);
+            byte[] decrypted = cipher.doFinal(enc);
             return decrypted;
     }
 }
