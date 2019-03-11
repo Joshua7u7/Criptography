@@ -5,13 +5,28 @@
  */
 package rsa.Ventanas;
 
+import java.io.File;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.io.PrintWriter;
+import java.nio.file.Files;
 import java.security.KeyPair;
+import java.security.NoSuchAlgorithmException;
+import java.security.PrivateKey;
+import java.security.PublicKey;
+import java.security.spec.InvalidKeySpecException;
+import java.util.Arrays;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.swing.JOptionPane;
+import org.python.core.Py;
+import org.python.core.PyFunction;
+import org.python.core.PyObject;
+import org.python.core.PyString;
+import org.python.core.PyType;
+import org.python.modules.cPickle;
+import org.python.modules.cPickle.Pickler;
+import org.python.util.PythonInterpreter;
 
 /**
  *
@@ -20,6 +35,13 @@ import javax.swing.JOptionPane;
 public class Main extends javax.swing.JFrame {
 
     private final String path_keys;
+    private String key_rute;
+    private String message;
+    private String message_rute;
+    private byte[] encrypted;
+    private byte[] decrypted;
+    private PrivateKey pkl;
+    private PublicKey publica;
     /**
      * Creates new form Main
      */
@@ -27,6 +49,8 @@ public class Main extends javax.swing.JFrame {
         this.path_keys = "C:\\Users\\josue\\Documents\\Criptography\\RSA\\keys\\";
         initComponents();
         this.setLocationRelativeTo(null);
+        this.pkl=null;
+        this.publica=null;
     }
 
     /**
@@ -91,6 +115,11 @@ public class Main extends javax.swing.JFrame {
         Read_key.setIcon(new javax.swing.ImageIcon(getClass().getResource("/imagenes/fondobtn.jpg"))); // NOI18N
         Read_key.setText("Select key");
         Read_key.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
+        Read_key.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                Read_keyActionPerformed(evt);
+            }
+        });
         getContentPane().add(Read_key, new org.netbeans.lib.awtextra.AbsoluteConstraints(80, 170, 170, 50));
 
         Select_Text.setFont(new java.awt.Font("Times New Roman", 3, 24)); // NOI18N
@@ -98,6 +127,11 @@ public class Main extends javax.swing.JFrame {
         Select_Text.setIcon(new javax.swing.ImageIcon(getClass().getResource("/imagenes/fondobtn.jpg"))); // NOI18N
         Select_Text.setText("Select text");
         Select_Text.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
+        Select_Text.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                Select_TextActionPerformed(evt);
+            }
+        });
         getContentPane().add(Select_Text, new org.netbeans.lib.awtextra.AbsoluteConstraints(520, 170, 170, 50));
 
         Encrypt.setFont(new java.awt.Font("Times New Roman", 3, 24)); // NOI18N
@@ -105,14 +139,24 @@ public class Main extends javax.swing.JFrame {
         Encrypt.setIcon(new javax.swing.ImageIcon(getClass().getResource("/imagenes/fondobtn.jpg"))); // NOI18N
         Encrypt.setText("Encrypt");
         Encrypt.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
-        getContentPane().add(Encrypt, new org.netbeans.lib.awtextra.AbsoluteConstraints(330, 330, 170, 50));
+        Encrypt.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                EncryptActionPerformed(evt);
+            }
+        });
+        getContentPane().add(Encrypt, new org.netbeans.lib.awtextra.AbsoluteConstraints(310, 250, 170, 50));
 
         Decrypt.setFont(new java.awt.Font("Times New Roman", 3, 24)); // NOI18N
         Decrypt.setForeground(new java.awt.Color(255, 255, 255));
         Decrypt.setIcon(new javax.swing.ImageIcon(getClass().getResource("/imagenes/fondobtn.jpg"))); // NOI18N
         Decrypt.setText("Decrypt");
         Decrypt.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
-        getContentPane().add(Decrypt, new org.netbeans.lib.awtextra.AbsoluteConstraints(320, 230, 170, 50));
+        Decrypt.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                DecryptActionPerformed(evt);
+            }
+        });
+        getContentPane().add(Decrypt, new org.netbeans.lib.awtextra.AbsoluteConstraints(320, 350, 170, 50));
 
         fondo.setIcon(new javax.swing.ImageIcon(getClass().getResource("/imagenes/fondo 2.jpg"))); // NOI18N
         getContentPane().add(fondo, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, 873, 519));
@@ -124,45 +168,146 @@ public class Main extends javax.swing.JFrame {
         System.exit(0);
     }//GEN-LAST:event_ExitActionPerformed
 
+    private void prueba_python()
+    {
+        File file = new File("C:\\Escritorio\\p.pkl");
+        PythonInterpreter interpreter = new PythonInterpreter();
+        interpreter.execfile("C:\\Users\\josue\\Documents\\Criptography\\RSA\\python\\save.py");
+        PyFunction DumpFunct = (PyFunction)interpreter.get("Dump", PyFunction.class);
+        String pp=this.path_keys+"ejemplo.key";
+       // DumpFunct.__call__(Py.java2py(this.pk),new PyString(pp));
+    }
+    
     private void GenerateKeysActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_GenerateKeysActionPerformed
-        KeyPair clave = Key_Generator.generarClave();
-        //System.out.println("Algoritmo clave privada:"+clave.getPrivate().getAlgorithm());
-        //System.out.println("El formato de la clave privada es:"+clave.getPrivate().getFormat());
-        System.out.println("Clave privada:"+clave.getPrivate().toString());
-        //System.out.println("Algoritmo clave pública:"+clave.getPublic().getAlgorithm());
-        //System.out.println("El formato de la clave pública es:"+ clave.getPublic().getFormat());
-        System.out.println("Clave pública:"+clave.getPublic().toString());
-        
+        KeyPair clave;
+        try {
+            clave = Key_Generator.generarClave();
+            this.pkl=clave.getPrivate();
+            this.publica=clave.getPublic();
+            String pvf=JOptionPane.showInputDialog("Name of the private key file");
+            String pvf2=JOptionPane.showInputDialog("Name of the public key file");
+            Archivo.GuardarLLave(path_keys,pvf2,pvf,clave);
+        } catch (NoSuchAlgorithmException ex) {
+            Logger.getLogger(Main.class.getName()).log(Level.SEVERE, null, ex);
+        }
 
-        String pvf=JOptionPane.showInputDialog("Name of the private key file");
-        
-        FileWriter file = null;
-        PrintWriter pw = null;
-        
-        try {
-            file = new FileWriter(path_keys+pvf);
-            pw= new PrintWriter(file);
-        } catch (IOException ex) {
-            Logger.getLogger(Main.class.getName()).log(Level.SEVERE, null, ex);
-        }
-        
-        pw.print(clave.getPrivate().toString());
-        
-        pvf = JOptionPane.showInputDialog("Name of the public key file");
-        
-        try {
-            file = new FileWriter(path_keys+pvf);
-            pw= new PrintWriter(file);
-        } catch (IOException ex) {
-            Logger.getLogger(Main.class.getName()).log(Level.SEVERE, null, ex);
-        }
-        
-        pw.print(clave.getPublic().toString());
-        
         JOptionPane.showMessageDialog(null,"Keys saved succesfully");
-        
     }//GEN-LAST:event_GenerateKeysActionPerformed
 
+    
+    private void Read_keyActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_Read_keyActionPerformed
+        setKeyRute(Archivo.rute("C:\\Users\\josue\\Documents\\Criptography\\RSA\\keys","SELECT KEY","key"));
+    }//GEN-LAST:event_Read_keyActionPerformed
+
+    private void Select_TextActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_Select_TextActionPerformed
+        setMessageRute(Archivo.rute("C:\\Users\\josue\\Documents\\Criptography\\RSA\\Messages","SELECT TEXT","txt"));
+        
+        try {
+             setMessage(Archivo.MessageFromFile(getMessageRute()));
+        } catch (IOException ex) {
+            Logger.getLogger(Main.class.getName()).log(Level.SEVERE, null, ex);
+        }
+    }//GEN-LAST:event_Select_TextActionPerformed
+
+    private void EncryptActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_EncryptActionPerformed
+        
+        PublicKey publicaa=null;
+        try {
+            publicaa = Archivo.cargarPublica(getKeyRute());
+        } catch (NoSuchAlgorithmException | InvalidKeySpecException ex) {
+            Logger.getLogger(Main.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        
+        try {
+            if(getMessage().length()<128)
+            encrypted = RSA.encrypt(publicaa,getMessage());
+        } catch (Exception ex) {
+            Logger.getLogger(Main.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        
+        FileWriter file = null;
+        PrintWriter pw;
+        
+        try {
+            file = new FileWriter("C:\\Users\\josue\\Documents\\Criptography\\RSA\\Messages\\encrypted.txt");
+            pw= new PrintWriter(file);
+            pw.write(fromByteToString(encrypted));
+        } catch (IOException ex) {
+            Logger.getLogger(Main.class.getName()).log(Level.SEVERE, null, ex);
+        }finally
+        {
+            try {
+                file.close();
+            } catch (IOException ex) {
+                Logger.getLogger(Main.class.getName()).log(Level.SEVERE, null, ex);
+            }
+        }
+        
+        JOptionPane.showMessageDialog(null,getMessage());
+        JOptionPane.showMessageDialog(null,fromByteToString(encrypted));
+    }//GEN-LAST:event_EncryptActionPerformed
+
+    private void DecryptActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_DecryptActionPerformed
+        
+        PrivateKey privada=null;
+        try {
+            privada = Archivo.cargarPrivada(getKeyRute());
+        } catch (NoSuchAlgorithmException | InvalidKeySpecException ex) {
+            Logger.getLogger(Main.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        
+        try {
+            File file = new File(getMessageRute());
+            byte[] aux = Files.readAllBytes(file.toPath());;
+            JOptionPane.showMessageDialog(null,fromByteToString(aux));
+            JOptionPane.showMessageDialog(null,fromByteToString(this.encrypted));
+            decrypted = RSA.decrypt(privada,this.encrypted);
+        } catch (Exception ex) {
+            Logger.getLogger(Main.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        
+        FileWriter file = null;
+        PrintWriter pw;
+        
+        try {
+            file = new FileWriter("C:\\Users\\josue\\Documents\\Criptography\\RSA\\Messages\\decrypted.txt");
+            pw= new PrintWriter(file);
+            pw.write(fromByteToString(decrypted));
+        } catch (IOException ex) {
+            Logger.getLogger(Main.class.getName()).log(Level.SEVERE, null, ex);
+        }finally
+        {
+            try {
+                file.close();
+            } catch (IOException ex) {
+                Logger.getLogger(Main.class.getName()).log(Level.SEVERE, null, ex);
+            }
+        }
+        
+        JOptionPane.showMessageDialog(null,getMessage());
+        JOptionPane.showMessageDialog(null,fromByteToString(decrypted));
+    }//GEN-LAST:event_DecryptActionPerformed
+
+    public String fromByteToString(byte[] array)
+    {
+        String cad = "";
+        for(int i = 0; i < array.length; i++)
+        {
+            cad += (char)array[i];
+        }
+        return cad;
+    }
+    private void setMessage(String msg){this.message = msg;}
+    
+    private String getMessage(){return this.message;}
+    
+    private String getKeyRute(){return this.key_rute;};
+    
+    private void setMessageRute(String message){this.message_rute = message;}
+    
+    public void setKeyRute(String rute){this.key_rute=rute;}
+    
+    public String getMessageRute(){return this.message_rute;}
     /**
      * @param args the command line arguments
      */
@@ -191,10 +336,8 @@ public class Main extends javax.swing.JFrame {
         //</editor-fold>
 
         /* Create and display the form */
-        java.awt.EventQueue.invokeLater(new Runnable() {
-            public void run() {
-                new Main().setVisible(true);
-            }
+        java.awt.EventQueue.invokeLater(() -> {
+            new Main().setVisible(true);
         });
     }
 

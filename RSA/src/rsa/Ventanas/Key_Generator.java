@@ -15,7 +15,8 @@ import javax.swing.JOptionPane;
  * @author josue
  */
 public class Key_Generator {
-    
+
+/*    
 public static KeyPair generarClave() 
 {
     KeyPair clave = null;//La clase KeyPair soporta una clave privada y una pública.
@@ -31,6 +32,13 @@ public static KeyPair generarClave()
     }
     return clave;
 }
-
+*/
+    
+   public static KeyPair generarClave() throws NoSuchAlgorithmException {
+        final int keySize = 1024;
+        KeyPairGenerator keyPairGenerator = KeyPairGenerator.getInstance("RSA");
+        keyPairGenerator.initialize(keySize);      
+        return keyPairGenerator.genKeyPair();
+    }
 
 }
