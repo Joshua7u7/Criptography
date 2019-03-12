@@ -5,11 +5,14 @@
  */
 package rsa.Ventanas;
 
+import java.io.BufferedReader;
 import java.io.File;
+import java.io.FileInputStream;
 import java.io.FileWriter;
 import java.io.IOException;
+import java.io.InputStreamReader;
 import java.io.PrintWriter;
-import java.nio.file.Files;
+import java.nio.charset.StandardCharsets;
 import java.security.KeyPair;
 import java.security.NoSuchAlgorithmException;
 import java.security.PrivateKey;
@@ -19,13 +22,9 @@ import java.util.Arrays;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.swing.JOptionPane;
-import org.python.core.Py;
+import javax.swing.UIManager;
+import javax.swing.UnsupportedLookAndFeelException;
 import org.python.core.PyFunction;
-import org.python.core.PyObject;
-import org.python.core.PyString;
-import org.python.core.PyType;
-import org.python.modules.cPickle;
-import org.python.modules.cPickle.Pickler;
 import org.python.util.PythonInterpreter;
 
 /**
@@ -167,16 +166,6 @@ public class Main extends javax.swing.JFrame {
     private void ExitActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_ExitActionPerformed
         System.exit(0);
     }//GEN-LAST:event_ExitActionPerformed
-
-    private void prueba_python()
-    {
-        File file = new File("C:\\Escritorio\\p.pkl");
-        PythonInterpreter interpreter = new PythonInterpreter();
-        interpreter.execfile("C:\\Users\\josue\\Documents\\Criptography\\RSA\\python\\save.py");
-        PyFunction DumpFunct = (PyFunction)interpreter.get("Dump", PyFunction.class);
-        String pp=this.path_keys+"ejemplo.key";
-       // DumpFunct.__call__(Py.java2py(this.pk),new PyString(pp));
-    }
     
     private void GenerateKeysActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_GenerateKeysActionPerformed
         KeyPair clave;
@@ -231,7 +220,7 @@ public class Main extends javax.swing.JFrame {
         try {
             file = new FileWriter("C:\\Users\\josue\\Documents\\Criptography\\RSA\\Messages\\encrypted.txt");
             pw= new PrintWriter(file);
-            pw.write(fromByteToString(encrypted));
+            pw.write(Arrays.toString((encrypted)));
         } catch (IOException ex) {
             Logger.getLogger(Main.class.getName()).log(Level.SEVERE, null, ex);
         }finally
@@ -243,10 +232,10 @@ public class Main extends javax.swing.JFrame {
             }
         }
         
-        JOptionPane.showMessageDialog(null,getMessage());
-        JOptionPane.showMessageDialog(null,fromByteToString(encrypted));
+        JOptionPane.showMessageDialog(null,"Message encrypted successfully bro <3");
     }//GEN-LAST:event_EncryptActionPerformed
 
+    @SuppressWarnings("empty-statement")
     private void DecryptActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_DecryptActionPerformed
         
         PrivateKey privada=null;
@@ -258,10 +247,14 @@ public class Main extends javax.swing.JFrame {
         
         try {
             File file = new File(getMessageRute());
-            byte[] aux = Files.readAllBytes(file.toPath());;
-            JOptionPane.showMessageDialog(null,fromByteToString(aux));
-            JOptionPane.showMessageDialog(null,fromByteToString(this.encrypted));
-            decrypted = RSA.decrypt(privada,this.encrypted);
+            String cadena;
+            StringBuilder cad=new StringBuilder();
+            try (BufferedReader b = new BufferedReader(new InputStreamReader(new FileInputStream(file),StandardCharsets.UTF_8))) {
+             while((cadena = b.readLine())!=null) {
+                 cad.append(cadena);
+             }}
+            byte[] aux = fromStringToByte(cad.toString());
+            decrypted = RSA.decrypt(privada,aux);
         } catch (Exception ex) {
             Logger.getLogger(Main.class.getName()).log(Level.SEVERE, null, ex);
         }
@@ -284,10 +277,24 @@ public class Main extends javax.swing.JFrame {
             }
         }
         
-        JOptionPane.showMessageDialog(null,getMessage());
-        JOptionPane.showMessageDialog(null,fromByteToString(decrypted));
+        JOptionPane.showMessageDialog(null,"Message decrypted successfully bro <3");
     }//GEN-LAST:event_DecryptActionPerformed
 
+    public byte[] fromStringToByte(String arreglo)
+    {
+        String[] items = arreglo.replaceAll("\\[", "").replaceAll("\\]", "").replaceAll("\\s", "").split(",");
+
+        byte[] results = new byte[items.length];
+        
+        for (int i = 0; i < items.length; i++) {
+        
+        try {
+            results[i] = Byte.parseByte(items[i]);
+        } catch (NumberFormatException nfe) {
+            JOptionPane.showMessageDialog(null,"Check the format bro");
+        }}
+        return results;
+    }
     public String fromByteToString(byte[] array)
     {
         String cad = "";
@@ -310,8 +317,10 @@ public class Main extends javax.swing.JFrame {
     public String getMessageRute(){return this.message_rute;}
     /**
      * @param args the command line arguments
+     * @throws java.lang.ClassNotFoundException
+     * @throws java.lang.InstantiationException
      */
-    public static void main(String args[]) {
+    public static void main(String args[]) throws ClassNotFoundException, InstantiationException {
         /* Set the Nimbus look and feel */
         //<editor-fold defaultstate="collapsed" desc=" Look and feel setting code (optional) ">
         /* If Nimbus (introduced in Java SE 6) is not available, stay with the default look and feel.
@@ -333,8 +342,12 @@ public class Main extends javax.swing.JFrame {
         } catch (javax.swing.UnsupportedLookAndFeelException ex) {
             java.util.logging.Logger.getLogger(Main.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         }
-        //</editor-fold>
-
+        try {
+            //</editor-fold>
+            UIManager.setLookAndFeel(UIManager.getSystemLookAndFeelClassName());
+        } catch (IllegalAccessException | UnsupportedLookAndFeelException ex) {
+            Logger.getLogger(Main.class.getName()).log(Level.SEVERE, null, ex);
+        }
         /* Create and display the form */
         java.awt.EventQueue.invokeLater(() -> {
             new Main().setVisible(true);
