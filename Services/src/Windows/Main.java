@@ -5,6 +5,24 @@
  */
 package Windows;
 
+import static java.awt.SystemColor.info;
+import java.io.FileNotFoundException;
+import java.io.IOException;
+import java.io.UnsupportedEncodingException;
+import java.security.NoSuchAlgorithmException;
+import java.security.PrivateKey;
+import java.security.PublicKey;
+import java.security.interfaces.RSAPublicKey;
+import java.security.spec.InvalidKeySpecException;
+import java.security.spec.X509EncodedKeySpec;
+import java.util.Arrays;
+import java.util.Base64;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+import javax.swing.JOptionPane;
+import javax.swing.UIManager;
+import javax.swing.UnsupportedLookAndFeelException;
+
 /**
  *
  * @author josue
@@ -14,6 +32,12 @@ public class Main extends javax.swing.JFrame {
     private int cA;
     private int cI;
     private int cC;
+    private String public_key_path;
+    private String private_key_path;
+    private String file_path;
+    private final static String path_mensaje = "C:\\Users\\josue\\Documents\\Criptography\\Services\\Mensajes";
+    private final static String path_llaves = "C:\\Users\\josue\\Documents\\Criptography\\Services\\Llaves";
+    
     public Main() {
         initComponents();
         this.setLocationRelativeTo(null);
@@ -59,14 +83,15 @@ public class Main extends javax.swing.JFrame {
         Verify = new javax.swing.JButton();
         Select_key = new javax.swing.JButton();
         Select_key1 = new javax.swing.JButton();
+        jComboBox1 = new javax.swing.JComboBox();
         BG2 = new javax.swing.JLabel();
         Exit = new javax.swing.JButton();
-        jComboBox1 = new javax.swing.JComboBox();
         SET_KEY = new javax.swing.JTextField();
         SEL_ALGORITHM = new javax.swing.JLabel();
         B1 = new javax.swing.JLabel();
         B2 = new javax.swing.JLabel();
         B3 = new javax.swing.JLabel();
+        Cypher = new javax.swing.JButton();
         BG1 = new javax.swing.JLabel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
@@ -93,6 +118,11 @@ public class Main extends javax.swing.JFrame {
         Select.setText("Select file");
         Select.setBorder(javax.swing.BorderFactory.createBevelBorder(javax.swing.border.BevelBorder.RAISED));
         Select.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
+        Select.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                SelectActionPerformed(evt);
+            }
+        });
         getContentPane().add(Select, new org.netbeans.lib.awtextra.AbsoluteConstraints(250, 430, 170, 40));
 
         I.setBackground(new java.awt.Color(76, 207, 224));
@@ -109,7 +139,7 @@ public class Main extends javax.swing.JFrame {
                 IActionPerformed(evt);
             }
         });
-        getContentPane().add(I, new org.netbeans.lib.awtextra.AbsoluteConstraints(140, 240, -1, -1));
+        getContentPane().add(I, new org.netbeans.lib.awtextra.AbsoluteConstraints(120, 210, -1, -1));
 
         C.setBackground(new java.awt.Color(76, 207, 224));
         C.setFont(new java.awt.Font("Times New Roman", 3, 18)); // NOI18N
@@ -125,7 +155,7 @@ public class Main extends javax.swing.JFrame {
                 CActionPerformed(evt);
             }
         });
-        getContentPane().add(C, new org.netbeans.lib.awtextra.AbsoluteConstraints(140, 290, -1, -1));
+        getContentPane().add(C, new org.netbeans.lib.awtextra.AbsoluteConstraints(120, 250, -1, -1));
 
         A.setBackground(new java.awt.Color(76, 207, 224));
         A.setFont(new java.awt.Font("Times New Roman", 3, 18)); // NOI18N
@@ -141,7 +171,7 @@ public class Main extends javax.swing.JFrame {
                 AActionPerformed(evt);
             }
         });
-        getContentPane().add(A, new org.netbeans.lib.awtextra.AbsoluteConstraints(140, 190, -1, -1));
+        getContentPane().add(A, new org.netbeans.lib.awtextra.AbsoluteConstraints(120, 170, -1, -1));
 
         Encrypt.setBackground(new java.awt.Color(255, 255, 255));
         Encrypt.setFont(new java.awt.Font("Times New Roman", 3, 18)); // NOI18N
@@ -171,7 +201,7 @@ public class Main extends javax.swing.JFrame {
         SELECT_KEY1.setFont(new java.awt.Font("Times New Roman", 3, 24)); // NOI18N
         SELECT_KEY1.setForeground(new java.awt.Color(255, 255, 255));
         SELECT_KEY1.setText("Please, select the key");
-        getContentPane().add(SELECT_KEY1, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 370, -1, -1));
+        getContentPane().add(SELECT_KEY1, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 360, -1, -1));
 
         SELECT_KEY.setFont(new java.awt.Font("Times New Roman", 3, 24)); // NOI18N
         SELECT_KEY.setText("Select your private key");
@@ -194,7 +224,7 @@ public class Main extends javax.swing.JFrame {
                 Select_keyActionPerformed(evt);
             }
         });
-        getContentPane().add(Select_key, new org.netbeans.lib.awtextra.AbsoluteConstraints(250, 370, 170, 40));
+        getContentPane().add(Select_key, new org.netbeans.lib.awtextra.AbsoluteConstraints(250, 360, 170, 40));
 
         Select_key1.setFont(new java.awt.Font("Times New Roman", 3, 14)); // NOI18N
         Select_key1.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Images/white.jpg"))); // NOI18N
@@ -206,7 +236,10 @@ public class Main extends javax.swing.JFrame {
                 Select_key1ActionPerformed(evt);
             }
         });
-        getContentPane().add(Select_key1, new org.netbeans.lib.awtextra.AbsoluteConstraints(730, 380, 170, 40));
+        getContentPane().add(Select_key1, new org.netbeans.lib.awtextra.AbsoluteConstraints(750, 370, 170, 40));
+
+        jComboBox1.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "AES", "DES" }));
+        getContentPane().add(jComboBox1, new org.netbeans.lib.awtextra.AbsoluteConstraints(780, 80, 60, 20));
 
         BG2.setBackground(new java.awt.Color(77, 208, 225));
         BG2.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Images/background1.png"))); // NOI18N
@@ -220,9 +253,6 @@ public class Main extends javax.swing.JFrame {
             }
         });
         getContentPane().add(Exit, new org.netbeans.lib.awtextra.AbsoluteConstraints(970, 0, 30, 30));
-
-        jComboBox1.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "AES", "DES" }));
-        getContentPane().add(jComboBox1, new org.netbeans.lib.awtextra.AbsoluteConstraints(780, 80, 60, 20));
 
         SET_KEY.setToolTipText("hola");
         getContentPane().add(SET_KEY, new org.netbeans.lib.awtextra.AbsoluteConstraints(760, 120, 190, 30));
@@ -243,6 +273,18 @@ public class Main extends javax.swing.JFrame {
         B3.setFont(new java.awt.Font("Times New Roman", 3, 24)); // NOI18N
         B3.setText("Because of you select confidentiality");
         getContentPane().add(B3, new org.netbeans.lib.awtextra.AbsoluteConstraints(530, 300, -1, -1));
+
+        Cypher.setFont(new java.awt.Font("Times New Roman", 3, 14)); // NOI18N
+        Cypher.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Images/white.jpg"))); // NOI18N
+        Cypher.setText("Do cypher");
+        Cypher.setBorder(javax.swing.BorderFactory.createBevelBorder(javax.swing.border.BevelBorder.RAISED));
+        Cypher.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
+        Cypher.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                CypherActionPerformed(evt);
+            }
+        });
+        getContentPane().add(Cypher, new org.netbeans.lib.awtextra.AbsoluteConstraints(650, 450, 170, 40));
 
         BG1.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Images/white.jpg"))); // NOI18N
         getContentPane().add(BG1, new org.netbeans.lib.awtextra.AbsoluteConstraints(430, 0, 570, 500));
@@ -267,19 +309,32 @@ public class Main extends javax.swing.JFrame {
     }//GEN-LAST:event_AActionPerformed
 
     private void EncryptActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_EncryptActionPerformed
-        // TODO add your handling code here:
+        
     }//GEN-LAST:event_EncryptActionPerformed
 
+    public String encryptMessage(int i) throws IOException, Exception
+    {
+        String message,encrypted;
+         
+        message = Archivo.leerArchivo(getFilePath());
+        if(i==1)
+           encrypted = AES.encrypt(SET_KEY.getText(),message);
+        else
+            encrypted = DES.encrypt(SET_KEY.getText(),message);
+       
+        return encrypted;
+    }
+    
     private void DecryptActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_DecryptActionPerformed
         // TODO add your handling code here:
     }//GEN-LAST:event_DecryptActionPerformed
 
     private void Select_keyActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_Select_keyActionPerformed
-        // TODO add your handling code here:
+        setPublicKeyPath(Archivo.rute(path_llaves,"Select key","key"));
     }//GEN-LAST:event_Select_keyActionPerformed
 
     private void Select_key1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_Select_key1ActionPerformed
-        // TODO add your handling code here:
+        setPrivateKeyPath(Archivo.rute(path_llaves,"Select key","key"));
     }//GEN-LAST:event_Select_key1ActionPerformed
 
     private void AMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_AMouseClicked
@@ -292,6 +347,7 @@ public class Main extends javax.swing.JFrame {
             Decrypt.setVisible(true);
             SELECT_KEY1.setVisible(true);
             Select_key.setVisible(true);
+            jComboBox1.setVisible(true);
             this.cA+=1;
         }
         else
@@ -303,6 +359,7 @@ public class Main extends javax.swing.JFrame {
             Decrypt.setVisible(false);
             SELECT_KEY1.setVisible(false);
             Select_key.setVisible(false);
+            jComboBox1.setVisible(false);
             this.cA+=1;
         }
     }//GEN-LAST:event_AMouseClicked
@@ -330,6 +387,11 @@ public class Main extends javax.swing.JFrame {
             SELECT_KEY.setVisible(true);
             Select_key1.setVisible(true);
             this.cC+=1;
+            I.setSelected(true);
+            B2.setVisible(true);
+            Verify.setVisible(true);
+            if(I.isSelected())
+                this.cI+=1;
         }
         else
         {
@@ -337,16 +399,178 @@ public class Main extends javax.swing.JFrame {
             SELECT_KEY.setVisible(false);
             Select_key1.setVisible(false);
             this.cC+=1;
-        }
-        
+        }        
     }//GEN-LAST:event_CMouseClicked
 
+    private void SelectActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_SelectActionPerformed
+        setFilePath(Archivo.rute("C:\\Users\\josue\\Documents\\Criptography\\Services\\Mensajes", "Select file", "txt"));
+    }//GEN-LAST:event_SelectActionPerformed
+
+    private void CypherActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_CypherActionPerformed
+        String message = null;
+        try {
+             message = Archivo.leerArchivo(getFilePath());
+        } catch (IOException ex) {
+            Logger.getLogger(Main.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        String cypher_message=null;
+        String cypher_key=null;
+        String hash=null;
+        String cypher_hash=null;
+        int i = 0;
+        if(A.isSelected())
+        {
+            if(jComboBox1.getSelectedIndex()==0)
+            {
+                i=1;
+                if(SET_KEY.getText().length()>16)
+                    JOptionPane.showMessageDialog(null,"Sorry, the key´s length must be of 16 characters or less");
+                
+                
+                else
+                {
+                    try {
+                        cypher_message = AES.encrypt(SET_KEY.getText(),message);
+                    } catch (Exception ex) {
+                        Logger.getLogger(Main.class.getName()).log(Level.SEVERE, null, ex);
+                    }
+
+                    try {
+                        cypher_key = Arrays.toString(RSA.encrypt(RSA.cargarPublica(getPublicKeyPath()), message));
+                    } catch (Exception ex) {
+                        Logger.getLogger(Main.class.getName()).log(Level.SEVERE, null, ex);
+                    }
+                }
+            }
+            else
+            {
+                i=2;
+                if(SET_KEY.getText().length()>8)
+                    JOptionPane.showMessageDialog(null,"Sorry, the key´s length must be of 8 characters or less");
+                
+                else
+                {
+                    try {
+                        cypher_message = DES.encrypt(SET_KEY.getText(),message);
+                    } catch (Exception ex) {
+                        Logger.getLogger(Main.class.getName()).log(Level.SEVERE, null, ex);
+                    }
+                    try {
+                        cypher_key = Arrays.toString(RSA.encrypt(RSA.cargarPublica(getPublicKeyPath()), message));
+                    } catch (Exception ex) {
+                        Logger.getLogger(Main.class.getName()).log(Level.SEVERE, null, ex);
+                    }
+                }
+            }
+        }
+        
+        if(I.isSelected())
+        {
+            hash=Hash.getSha(message);
+        }
+                
+        if(C.isSelected())
+        {
+            hash = Hash.getSha(message);
+            try {
+                PrivateKey llave= RSA.cargarPrivada(getPrivateKeyPath());
+                try {
+                    cypher_hash = Arrays.toString(RSA.encrypt(llave,hash));
+                } catch (Exception ex) {
+                    Logger.getLogger(Main.class.getName()).log(Level.SEVERE, null, ex);
+                    }
+                } catch (NoSuchAlgorithmException | InvalidKeySpecException ex) {
+                    Logger.getLogger(Main.class.getName()).log(Level.SEVERE, null, ex);
+                }
+        }
+        
+        if(A.isSelected() && I.isSelected() && C.isSelected())
+        {
+            String new_message="";
+            new_message=cypher_message+"\n";
+            new_message+=cypher_key+"\n";
+            new_message+=cypher_hash+"\n";
+            
+            try {
+                Archivo.escribirArchivo(new_message,getNameSalida(i));
+            } catch (FileNotFoundException | UnsupportedEncodingException ex) {
+                Logger.getLogger(Main.class.getName()).log(Level.SEVERE, null, ex);
+            }
+            JOptionPane.showMessageDialog(null,"We have ended");
+        }
+        
+        if(A.isSelected() && C.isSelected())
+        {
+             String new_message="";
+            new_message=cypher_message+"\n";
+            new_message+=cypher_key+"\n";
+            new_message+=cypher_hash+"\n";
+            
+            try {
+                Archivo.escribirArchivo(new_message,getNameSalida(i));
+            } catch (FileNotFoundException | UnsupportedEncodingException ex) {
+                Logger.getLogger(Main.class.getName()).log(Level.SEVERE, null, ex);
+            }
+            JOptionPane.showMessageDialog(null,"We have ended");
+        }
+        
+        if(!A.isSelected() && I.isSelected() && !C.isSelected())
+        {
+            String new_message="";
+            new_message+=message+"\n";
+            new_message+=hash+"\n";
+            
+            try {
+                Archivo.escribirArchivo(new_message, getNameSalida(5));
+            } catch (FileNotFoundException | UnsupportedEncodingException ex) {
+                Logger.getLogger(Main.class.getName()).log(Level.SEVERE, null, ex);
+            }
+            JOptionPane.showMessageDialog(null,"We have ended");
+        }
+        
+        if(A.isSelected() && !I.isSelected() && !C.isSelected())
+        {
+            String new_message="";
+            new_message+=cypher_message+"\n";
+            new_message+=cypher_key+"\n";
+            JOptionPane.showMessageDialog(null,"We have ended");
+        }
+    }//GEN-LAST:event_CypherActionPerformed
+
+    public void setPublicKeyPath(String path){ this.public_key_path=path;}
+    
+    public void setPrivateKeyPath(String path){ this.private_key_path=path;}
+    
+    public void setFilePath(String path){this.file_path=path; }
+    
+    public String getPublicKeyPath(){return this.public_key_path;}
+    
+    public String getPrivateKeyPath(){return this.private_key_path;}
+    
+    public String getFilePath(){return this.file_path;}
+    
+    public String getNameSalida(int n)
+    {
+        if(n==1)
+            return path_mensaje+"\\m_AESE.txt";
+        else if(n==2)
+            return path_mensaje+"\\m_DESE.txt";
+        else if(n==3)
+            return path_mensaje+"\\m_AESD.txt";
+        else if(n==4)
+            return path_mensaje+"\\m_DESD.txt";
+        else
+            return path_mensaje+"\\integridad.txt";
+    }
     
     
     /**
      * @param args the command line arguments
+     * @throws java.lang.ClassNotFoundException
+     * @throws java.lang.InstantiationException
+     * @throws java.lang.IllegalAccessException
      */
-    public static void main(String args[]) {
+    public static void main(String args[]) throws ClassNotFoundException, InstantiationException, IllegalAccessException {
         /* Set the Nimbus look and feel */
         //<editor-fold defaultstate="collapsed" desc=" Look and feel setting code (optional) ">
         /* If Nimbus (introduced in Java SE 6) is not available, stay with the default look and feel.
@@ -368,13 +592,15 @@ public class Main extends javax.swing.JFrame {
         } catch (javax.swing.UnsupportedLookAndFeelException ex) {
             java.util.logging.Logger.getLogger(Main.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         }
-        //</editor-fold>
-
+        try {
+            //</editor-fold>
+            UIManager.setLookAndFeel(UIManager.getSystemLookAndFeelClassName());
+        } catch (UnsupportedLookAndFeelException ex) {
+            Logger.getLogger(Main.class.getName()).log(Level.SEVERE, null, ex);
+        }
         /* Create and display the form */
-        java.awt.EventQueue.invokeLater(new Runnable() {
-            public void run() {
-                new Main().setVisible(true);
-            }
+        java.awt.EventQueue.invokeLater(() -> {
+            new Main().setVisible(true);
         });
     }
 
@@ -386,6 +612,7 @@ public class Main extends javax.swing.JFrame {
     private javax.swing.JLabel BG1;
     private javax.swing.JLabel BG2;
     private javax.swing.JRadioButton C;
+    private javax.swing.JButton Cypher;
     private javax.swing.JRadioButton Decrypt;
     private javax.swing.JRadioButton Encrypt;
     private javax.swing.JButton Exit;
@@ -404,4 +631,8 @@ public class Main extends javax.swing.JFrame {
     private javax.swing.JButton Verify;
     private javax.swing.JComboBox jComboBox1;
     // End of variables declaration//GEN-END:variables
+
+    private String getFilePAth() {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    }
 }
