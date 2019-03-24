@@ -105,7 +105,7 @@ public class Main extends javax.swing.JFrame {
 
         Name2.setFont(new java.awt.Font("Times New Roman", 3, 24)); // NOI18N
         Name2.setForeground(new java.awt.Color(255, 255, 255));
-        Name2.setText("Sánchez Águilar Alan David");
+        Name2.setText("Jiménez Sánchez Alan David");
         getContentPane().add(Name2, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 40, -1, -1));
 
         SELECT_FILE.setFont(new java.awt.Font("Times New Roman", 3, 24)); // NOI18N
