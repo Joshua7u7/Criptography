@@ -1,4 +1,4 @@
-/*
+ /*
  * To change this license header, choose License Headers in Project Properties.
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
@@ -19,9 +19,9 @@ public class DES {
      // Definición del tipo de algoritmo a utilizar (AES, DES, RSA)
     private final static String alg = "DES";
     // Definición del modo de cifrado a utilizar
-    private final static String cI = "DES/ECB/PKCS5Padding";
+    private final static String cI = "DES/CBC/PKCS5Padding";
     
-    private final static String iv="0123456789ABCDEF";
+    private final static String iv="01234567";
  
     /**
      * Función de tipo String que recibe una llave (key), un vector de inicialización (iv)
@@ -64,7 +64,7 @@ public class DES {
     
     public static String fillKey(String key)
     {
-        for(int i=key.length();i<9;i++)
+        for(int i=key.length();i<8;i++)
         {
             key+='x';
         }

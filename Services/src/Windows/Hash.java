@@ -64,7 +64,27 @@ public class Hash {
             aux+=array[i];
         
         String newSha = getSha(oo);
+        System.out.println(aux);
+        System.out.println(oo.length());
         
+        return (aux.equalsIgnoreCase(newSha));
+    }
+    
+    public static boolean verifySha2(String output_text)
+    {
+        char[] array = output_text.toCharArray();
+        
+        String aux="";
+        String oo ="";
+        
+        for(int i=0;i<output_text.length()-65;i++)
+            oo+=array[i];
+        
+        for(int i=output_text.length()-64;i<output_text.length();i++)
+            aux+=array[i];
+        
+        
+        String newSha = getSha(oo);
         System.out.println(aux);
         System.out.println(oo.length());
         

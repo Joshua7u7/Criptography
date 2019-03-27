@@ -15,6 +15,7 @@ import java.security.PublicKey;
 import java.security.interfaces.RSAPublicKey;
 import java.security.spec.InvalidKeySpecException;
 import java.security.spec.X509EncodedKeySpec;
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Base64;
 import java.util.logging.Level;
@@ -54,6 +55,11 @@ public class Main extends javax.swing.JFrame {
         B3.setVisible(false);
         Encrypt.setVisible(false);
         Decrypt.setVisible(false);
+        CreateHash.setVisible(false);
+        Create_hash.setVisible(false);
+        verify.setVisible(false);
+        Cypher.setVisible(false);
+        Check.setVisible(false);
         this.cA=1;
         this.cI=1;
         this.cC=1;
@@ -73,14 +79,17 @@ public class Main extends javax.swing.JFrame {
         SELECT_FILE = new javax.swing.JLabel();
         Select = new javax.swing.JButton();
         I = new javax.swing.JRadioButton();
-        C = new javax.swing.JRadioButton();
         A = new javax.swing.JRadioButton();
+        C = new javax.swing.JRadioButton();
         Encrypt = new javax.swing.JRadioButton();
         Decrypt = new javax.swing.JRadioButton();
         Select_services = new javax.swing.JLabel();
         SELECT_KEY1 = new javax.swing.JLabel();
         SELECT_KEY = new javax.swing.JLabel();
         Verify = new javax.swing.JButton();
+        CreateHash = new javax.swing.JButton();
+        verify = new javax.swing.JRadioButton();
+        Create_hash = new javax.swing.JRadioButton();
         Select_key = new javax.swing.JButton();
         Select_key1 = new javax.swing.JButton();
         jComboBox1 = new javax.swing.JComboBox();
@@ -92,6 +101,7 @@ public class Main extends javax.swing.JFrame {
         B2 = new javax.swing.JLabel();
         B3 = new javax.swing.JLabel();
         Cypher = new javax.swing.JButton();
+        Check = new javax.swing.JButton();
         BG1 = new javax.swing.JLabel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
@@ -141,22 +151,6 @@ public class Main extends javax.swing.JFrame {
         });
         getContentPane().add(I, new org.netbeans.lib.awtextra.AbsoluteConstraints(120, 210, -1, -1));
 
-        C.setBackground(new java.awt.Color(76, 207, 224));
-        C.setFont(new java.awt.Font("Times New Roman", 3, 18)); // NOI18N
-        C.setForeground(new java.awt.Color(255, 255, 255));
-        C.setText("Confidentiality");
-        C.addMouseListener(new java.awt.event.MouseAdapter() {
-            public void mouseClicked(java.awt.event.MouseEvent evt) {
-                CMouseClicked(evt);
-            }
-        });
-        C.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                CActionPerformed(evt);
-            }
-        });
-        getContentPane().add(C, new org.netbeans.lib.awtextra.AbsoluteConstraints(120, 250, -1, -1));
-
         A.setBackground(new java.awt.Color(76, 207, 224));
         A.setFont(new java.awt.Font("Times New Roman", 3, 18)); // NOI18N
         A.setForeground(new java.awt.Color(255, 255, 255));
@@ -171,7 +165,23 @@ public class Main extends javax.swing.JFrame {
                 AActionPerformed(evt);
             }
         });
-        getContentPane().add(A, new org.netbeans.lib.awtextra.AbsoluteConstraints(120, 170, -1, -1));
+        getContentPane().add(A, new org.netbeans.lib.awtextra.AbsoluteConstraints(120, 250, -1, -1));
+
+        C.setBackground(new java.awt.Color(76, 207, 224));
+        C.setFont(new java.awt.Font("Times New Roman", 3, 18)); // NOI18N
+        C.setForeground(new java.awt.Color(255, 255, 255));
+        C.setText("Confidentiality");
+        C.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                CMouseClicked(evt);
+            }
+        });
+        C.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                CActionPerformed(evt);
+            }
+        });
+        getContentPane().add(C, new org.netbeans.lib.awtextra.AbsoluteConstraints(120, 170, -1, -1));
 
         Encrypt.setBackground(new java.awt.Color(255, 255, 255));
         Encrypt.setFont(new java.awt.Font("Times New Roman", 3, 18)); // NOI18N
@@ -212,7 +222,54 @@ public class Main extends javax.swing.JFrame {
         Verify.setText("Verify");
         Verify.setBorder(javax.swing.BorderFactory.createBevelBorder(javax.swing.border.BevelBorder.RAISED));
         Verify.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
-        getContentPane().add(Verify, new org.netbeans.lib.awtextra.AbsoluteConstraints(610, 230, 170, 40));
+        Verify.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                VerifyActionPerformed(evt);
+            }
+        });
+        getContentPane().add(Verify, new org.netbeans.lib.awtextra.AbsoluteConstraints(790, 220, 170, 40));
+
+        CreateHash.setFont(new java.awt.Font("Times New Roman", 3, 14)); // NOI18N
+        CreateHash.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Images/white.jpg"))); // NOI18N
+        CreateHash.setText("Create hash");
+        CreateHash.setBorder(javax.swing.BorderFactory.createBevelBorder(javax.swing.border.BevelBorder.RAISED));
+        CreateHash.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
+        CreateHash.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                CreateHashActionPerformed(evt);
+            }
+        });
+        getContentPane().add(CreateHash, new org.netbeans.lib.awtextra.AbsoluteConstraints(790, 220, 170, 40));
+
+        verify.setBackground(new java.awt.Color(255, 255, 255));
+        verify.setFont(new java.awt.Font("Times New Roman", 3, 18)); // NOI18N
+        verify.setText("Verify hash");
+        verify.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                verifyMouseClicked(evt);
+            }
+        });
+        verify.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                verifyActionPerformed(evt);
+            }
+        });
+        getContentPane().add(verify, new org.netbeans.lib.awtextra.AbsoluteConstraints(500, 220, -1, -1));
+
+        Create_hash.setBackground(new java.awt.Color(255, 255, 255));
+        Create_hash.setFont(new java.awt.Font("Times New Roman", 3, 18)); // NOI18N
+        Create_hash.setText("Create the hash");
+        Create_hash.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                Create_hashMouseClicked(evt);
+            }
+        });
+        Create_hash.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                Create_hashActionPerformed(evt);
+            }
+        });
+        getContentPane().add(Create_hash, new org.netbeans.lib.awtextra.AbsoluteConstraints(500, 260, -1, -1));
 
         Select_key.setFont(new java.awt.Font("Times New Roman", 3, 14)); // NOI18N
         Select_key.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Images/white.jpg"))); // NOI18N
@@ -284,7 +341,19 @@ public class Main extends javax.swing.JFrame {
                 CypherActionPerformed(evt);
             }
         });
-        getContentPane().add(Cypher, new org.netbeans.lib.awtextra.AbsoluteConstraints(650, 450, 170, 40));
+        getContentPane().add(Cypher, new org.netbeans.lib.awtextra.AbsoluteConstraints(520, 440, 170, 40));
+
+        Check.setFont(new java.awt.Font("Times New Roman", 3, 14)); // NOI18N
+        Check.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Images/white.jpg"))); // NOI18N
+        Check.setText("Check");
+        Check.setBorder(javax.swing.BorderFactory.createBevelBorder(javax.swing.border.BevelBorder.RAISED));
+        Check.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
+        Check.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                CheckActionPerformed(evt);
+            }
+        });
+        getContentPane().add(Check, new org.netbeans.lib.awtextra.AbsoluteConstraints(740, 440, 170, 40));
 
         BG1.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Images/white.jpg"))); // NOI18N
         getContentPane().add(BG1, new org.netbeans.lib.awtextra.AbsoluteConstraints(430, 0, 570, 500));
@@ -300,13 +369,13 @@ public class Main extends javax.swing.JFrame {
         // TODO add your handling code here:
     }//GEN-LAST:event_IActionPerformed
 
-    private void CActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_CActionPerformed
-    // TODO add your handling code here:
-    }//GEN-LAST:event_CActionPerformed
-
     private void AActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_AActionPerformed
-        // TODO add your handling code here:
+    // TODO add your handling code here:
     }//GEN-LAST:event_AActionPerformed
+
+    private void CActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_CActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_CActionPerformed
 
     private void EncryptActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_EncryptActionPerformed
         
@@ -337,7 +406,7 @@ public class Main extends javax.swing.JFrame {
         setPrivateKeyPath(Archivo.rute(path_llaves,"Select key","key"));
     }//GEN-LAST:event_Select_key1ActionPerformed
 
-    private void AMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_AMouseClicked
+    private void CMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_CMouseClicked
         if((cA%2)!=0)
         {
             B1.setVisible(true);
@@ -348,6 +417,8 @@ public class Main extends javax.swing.JFrame {
             SELECT_KEY1.setVisible(true);
             Select_key.setVisible(true);
             jComboBox1.setVisible(true);
+            Cypher.setVisible(true);
+            Check.setVisible(true);
             this.cA+=1;
         }
         else
@@ -362,34 +433,43 @@ public class Main extends javax.swing.JFrame {
             jComboBox1.setVisible(false);
             this.cA+=1;
         }
-    }//GEN-LAST:event_AMouseClicked
+    }//GEN-LAST:event_CMouseClicked
 
     private void IMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_IMouseClicked
         if((this.cI%2)!=0)
         {
             B2.setVisible(true);
-            Verify.setVisible(true);
+            Create_hash.setVisible(true);
+            verify.setVisible(true);
             this.cI+=1;
         }
         else
         {
             B2.setVisible(false);
-            Verify.setVisible(false);
+            Create_hash.setVisible(false);
+            verify.setVisible(false);
             this.cI+=1;
         }
         
+        if(!C.isSelected() && !A.isSelected())
+            Cypher.setVisible(false);
+        
     }//GEN-LAST:event_IMouseClicked
 
-    private void CMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_CMouseClicked
+    private void AMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_AMouseClicked
         if((this.cC%2)!=0)
         {
+            JOptionPane.showMessageDialog(null,"If you select authenticity you dont have to do anything in the part of integrity");
             B3.setVisible(true);
             SELECT_KEY.setVisible(true);
             Select_key1.setVisible(true);
+            Create_hash.setVisible(true);
+            verify.setVisible(true);
+            Cypher.setVisible(true);
+            Check.setVisible(true);
             this.cC+=1;
             I.setSelected(true);
             B2.setVisible(true);
-            Verify.setVisible(true);
             if(I.isSelected())
                 this.cI+=1;
         }
@@ -399,13 +479,55 @@ public class Main extends javax.swing.JFrame {
             SELECT_KEY.setVisible(false);
             Select_key1.setVisible(false);
             this.cC+=1;
+            Create_hash.setVisible(false);
+            verify.setVisible(false);
         }        
-    }//GEN-LAST:event_CMouseClicked
+    }//GEN-LAST:event_AMouseClicked
 
     private void SelectActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_SelectActionPerformed
         setFilePath(Archivo.rute("C:\\Users\\josue\\Documents\\Criptography\\Services\\Mensajes", "Select file", "txt"));
     }//GEN-LAST:event_SelectActionPerformed
 
+    public String ciframe(String text,int option) throws Exception
+    {
+        String msg=null;
+        if(option==0)
+        {
+           if(SET_KEY.getText().length()>16)
+            JOptionPane.showMessageDialog(null,"Sorry, the key´s length must be of 16 characters or less");
+           else
+            msg =  AES.encrypt(SET_KEY.getText(),text);
+        }
+        else
+        {
+           if(SET_KEY.getText().length()>8)
+                JOptionPane.showMessageDialog(null,"Sorry, the key´s length must be of 8 characters or less");
+           else
+                msg = DES.encrypt(SET_KEY.getText(),text);
+        }
+        return msg;
+    }
+    
+    public void escribemeArchivo(String mensaje,int i)
+    {
+        try {
+                Archivo.escribirArchivo(mensaje, getNameSalida(i));
+            } catch (FileNotFoundException | UnsupportedEncodingException ex) {
+                Logger.getLogger(Main.class.getName()).log(Level.SEVERE, null, ex);
+            }
+    }
+    
+    public String getCypherKey() throws Exception
+    {
+        String cypher_key=null;
+        try {
+                cypher_key = Arrays.toString(RSA.encrypt(RSA.cargarPublica(getPublicKeyPath()),SET_KEY.getText()));
+            } catch (NoSuchAlgorithmException | InvalidKeySpecException ex) {
+                Logger.getLogger(Main.class.getName()).log(Level.SEVERE, null, ex);
+            }
+        return cypher_key;
+    }
+    
     private void CypherActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_CypherActionPerformed
         String message = null;
         try {
@@ -415,127 +537,345 @@ public class Main extends javax.swing.JFrame {
         }
         String cypher_message=null;
         String cypher_key=null;
-        String hash=null;
+        String hash;
         String cypher_hash=null;
         int i = 0;
-        if(A.isSelected())
+        
+        if(C.isSelected() && !I.isSelected() && !A.isSelected())
         {
-            if(jComboBox1.getSelectedIndex()==0)
-            {
-                i=1;
-                if(SET_KEY.getText().length()>16)
-                    JOptionPane.showMessageDialog(null,"Sorry, the key´s length must be of 16 characters or less");
-                
-                
+            String new_message;
+            try {
+                if(jComboBox1.getSelectedIndex()==0)
+                {
+                    cypher_message = ciframe(message,0);
+                    i=1;
+                }
+                    
                 else
                 {
-                    try {
-                        cypher_message = AES.encrypt(SET_KEY.getText(),message);
-                    } catch (Exception ex) {
-                        Logger.getLogger(Main.class.getName()).log(Level.SEVERE, null, ex);
-                    }
-
-                    try {
-                        cypher_key = Arrays.toString(RSA.encrypt(RSA.cargarPublica(getPublicKeyPath()), message));
-                    } catch (Exception ex) {
-                        Logger.getLogger(Main.class.getName()).log(Level.SEVERE, null, ex);
-                    }
+                    cypher_message = ciframe(message,1);
+                    i=2;
                 }
+                    
+            } catch (Exception ex) {
+                Logger.getLogger(Main.class.getName()).log(Level.SEVERE, null, ex);
             }
-            else
-            {
-                i=2;
-                if(SET_KEY.getText().length()>8)
-                    JOptionPane.showMessageDialog(null,"Sorry, the key´s length must be of 8 characters or less");
-                
-                else
-                {
-                    try {
-                        cypher_message = DES.encrypt(SET_KEY.getText(),message);
-                    } catch (Exception ex) {
-                        Logger.getLogger(Main.class.getName()).log(Level.SEVERE, null, ex);
-                    }
-                    try {
-                        cypher_key = Arrays.toString(RSA.encrypt(RSA.cargarPublica(getPublicKeyPath()), message));
-                    } catch (Exception ex) {
-                        Logger.getLogger(Main.class.getName()).log(Level.SEVERE, null, ex);
-                    }
-                }
+            
+            try {
+                cypher_key = getCypherKey();
+            } catch (Exception ex) {
+                Logger.getLogger(Main.class.getName()).log(Level.SEVERE, null, ex);
             }
+            
+            new_message = cypher_message+'\n';
+            new_message += cypher_key+'\n';
+            
+            escribemeArchivo(new_message,i);
+            
+            JOptionPane.showMessageDialog(null,"We´ve ended");
         }
         
-        if(I.isSelected())
+        if(C.isSelected() && I.isSelected() && !A.isSelected())
         {
-            hash=Hash.getSha(message);
+            hash = Hash.getSha(message);
+            message += '\n'+hash;
+            
+            try {
+                if(jComboBox1.getSelectedIndex()==0)
+                {
+                    cypher_message = ciframe(message,0);
+                    i=1;
+                }
+                    
+                else
+                {
+                    cypher_message = ciframe(message,1);
+                    i=2;
+                }
+                    
+            } catch (Exception ex) {
+                Logger.getLogger(Main.class.getName()).log(Level.SEVERE, null, ex);
+            }
+            
+             try {
+                cypher_key = getCypherKey();
+            } catch (Exception ex) {
+                Logger.getLogger(Main.class.getName()).log(Level.SEVERE, null, ex);
+            }
+            String new_message;
+            new_message = cypher_message+'\n';
+            new_message += cypher_key+'\n';
+            
+            escribemeArchivo(new_message,i);
+            JOptionPane.showMessageDialog(null,"We´ve ended");
         }
-                
-        if(C.isSelected())
+        
+        if(!C.isSelected() && A.isSelected() && I.isSelected())
         {
             hash = Hash.getSha(message);
             try {
-                PrivateKey llave= RSA.cargarPrivada(getPrivateKeyPath());
-                try {
-                    cypher_hash = Arrays.toString(RSA.encrypt(llave,hash));
-                } catch (Exception ex) {
-                    Logger.getLogger(Main.class.getName()).log(Level.SEVERE, null, ex);
+                cypher_hash = Arrays.toString(RSA.encrypt(RSA.cargarPrivada(getPrivateKeyPath()),hash));
+            } catch (NoSuchAlgorithmException ex) {
+                Logger.getLogger(Main.class.getName()).log(Level.SEVERE, null, ex);
+            } catch (InvalidKeySpecException ex) {
+                Logger.getLogger(Main.class.getName()).log(Level.SEVERE, null, ex);
+            } catch (Exception ex) {
+                Logger.getLogger(Main.class.getName()).log(Level.SEVERE, null, ex);
+            }
+            
+            String new_message=message+'\n'+cypher_hash;
+            
+            escribemeArchivo(new_message,5);
+            JOptionPane.showMessageDialog(null,"We´ve ended");
+        }
+        
+        if(C.isSelected() && A.isSelected() && I.isSelected())
+        {
+         hash = Hash.getSha(message);
+         String cypher_sha=null;
+            try {
+                cypher_sha = Arrays.toString(RSA.encrypt(RSA.cargarPrivada(getPrivateKeyPath()), hash));
+            } catch (NoSuchAlgorithmException | InvalidKeySpecException ex) {
+                Logger.getLogger(Main.class.getName()).log(Level.SEVERE, null, ex);
+            } catch (Exception ex) {
+                Logger.getLogger(Main.class.getName()).log(Level.SEVERE, null, ex);
+            }
+            message+='\n'+cypher_sha;
+            try {
+                if(jComboBox1.getSelectedIndex()==0)
+                {
+                    cypher_message = AES.encrypt(SET_KEY.getText(), message);
+                    i=1;
+                }
+                else
+                {
+                    cypher_message = DES.encrypt(SET_KEY.getText(), message);
+                    i=2;
+                }
+            } catch (Exception ex) {
+                Logger.getLogger(Main.class.getName()).log(Level.SEVERE, null, ex);
+            }
+            
+            try {
+                cypher_key = getCypherKey();
+            } catch (Exception ex) {
+                Logger.getLogger(Main.class.getName()).log(Level.SEVERE, null, ex);
+            }
+            String new_message = cypher_message+'\n'+cypher_key;
+            
+            escribemeArchivo(new_message,i);
+            JOptionPane.showMessageDialog(null,"We´ve ended");
+        }
+
+    }//GEN-LAST:event_CypherActionPerformed
+
+    private void Create_hashActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_Create_hashActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_Create_hashActionPerformed
+
+    private void verifyActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_verifyActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_verifyActionPerformed
+
+    private void verifyMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_verifyMouseClicked
+        Verify.setVisible(true);
+        CreateHash.setVisible(false);
+        Create_hash.setSelected(false);
+    }//GEN-LAST:event_verifyMouseClicked
+
+    private void Create_hashMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_Create_hashMouseClicked
+        Verify.setVisible(false);
+        CreateHash.setVisible(true);
+        verify.setSelected(false);
+    }//GEN-LAST:event_Create_hashMouseClicked
+
+    private void CreateHashActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_CreateHashActionPerformed
+        String message="";
+        try {
+            message = Archivo.leerArchivo(getFilePath());
+        } catch (IOException ex) {
+            Logger.getLogger(Main.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        
+        String hash;
+        
+        hash= Hash.getSha(message);
+        
+        String new_message="";
+        new_message+=message+"\n";
+        new_message+=hash;
+        
+        try {
+            Archivo.escribirArchivo(new_message, getNameSalida(5));
+        } catch (FileNotFoundException | UnsupportedEncodingException ex) {
+            Logger.getLogger(Main.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        
+        JOptionPane.showMessageDialog(null,"We´ve create the file called integridad.txt successfully");
+    }//GEN-LAST:event_CreateHashActionPerformed
+
+    private void VerifyActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_VerifyActionPerformed
+        try {
+            if(Hash.verifySha(getFilePath()))
+                JOptionPane.showMessageDialog(null,"Correct!!");
+            else
+                JOptionPane.showMessageDialog(null,"The file has been modified!!");
+        } catch (IOException ex) {
+            Logger.getLogger(Main.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        
+    }//GEN-LAST:event_VerifyActionPerformed
+
+    public boolean isEmpty() throws NoSuchAlgorithmException, Exception
+    {
+        if(SET_KEY.getText().equalsIgnoreCase(""))
+        {
+                String key = File_Reader.getKeyFromFile(getFilePath(),RSA.cargarPrivada(getPublicKeyPath()));
+                JOptionPane.showMessageDialog(null,"The key that you must use is: "+key+" anyway I´m going to write it in the console");
+                System.out.println(key);
+                return true;
+        }
+        else
+            return false;
+    }
+    
+    private void CheckActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_CheckActionPerformed
+        String decrypted = null;
+        String message=null;
+        String hash = null,cypher_hash;
+        int i=0;
+        try {
+            message = File_Reader.ReadTextNDKey(getFilePath()).get(0).toString();
+        } catch (IOException ex) {
+            Logger.getLogger(Main.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        
+        /***********************************************************************************************/
+        if(C.isSelected() && !I.isSelected() && !A.isSelected())
+        {
+            try {
+                if(!isEmpty())
+                {
+                    if(jComboBox1.getSelectedIndex()==0)
+                    {
+                        decrypted = AES.decrypt(SET_KEY.getText(), message);
+                        i=3;
                     }
-                } catch (NoSuchAlgorithmException | InvalidKeySpecException ex) {
+                    else
+                    {
+                        decrypted = DES.decrypt(SET_KEY.getText(), message);
+                        i=4;
+                    }
+                    
+                    try {
+                    Archivo.escribirArchivo(decrypted, getNameSalida(i));
+                    JOptionPane.showMessageDialog(null,"We have ended, check the outútfile");
+                } catch (FileNotFoundException | UnsupportedEncodingException ex) {
                     Logger.getLogger(Main.class.getName()).log(Level.SEVERE, null, ex);
                 }
-        }
-        
-        if(A.isSelected() && I.isSelected() && C.isSelected())
-        {
-            String new_message="";
-            new_message=cypher_message+"\n";
-            new_message+=cypher_key+"\n";
-            new_message+=cypher_hash+"\n";
-            
-            try {
-                Archivo.escribirArchivo(new_message,getNameSalida(i));
-            } catch (FileNotFoundException | UnsupportedEncodingException ex) {
+                }
+                
+            } catch (Exception ex) {
                 Logger.getLogger(Main.class.getName()).log(Level.SEVERE, null, ex);
             }
-            JOptionPane.showMessageDialog(null,"We have ended");
-        }
-        
-        if(A.isSelected() && C.isSelected())
-        {
-             String new_message="";
-            new_message=cypher_message+"\n";
-            new_message+=cypher_key+"\n";
-            new_message+=cypher_hash+"\n";
             
+            
+        }
+        /***********************************************************************************************/
+        
+        /***********************************************************************************************/
+        if(!C.isSelected() && I.isSelected() && A.isSelected())
+        {
             try {
-                Archivo.escribirArchivo(new_message,getNameSalida(i));
-            } catch (FileNotFoundException | UnsupportedEncodingException ex) {
+                message = File_Reader.ReadTextNDKey(getFilePath()).get(0).toString();
+            } catch (IOException ex) {
                 Logger.getLogger(Main.class.getName()).log(Level.SEVERE, null, ex);
             }
-            JOptionPane.showMessageDialog(null,"We have ended");
-        }
-        
-        if(!A.isSelected() && I.isSelected() && !C.isSelected())
-        {
-            String new_message="";
-            new_message+=message+"\n";
-            new_message+=hash+"\n";
             
             try {
-                Archivo.escribirArchivo(new_message, getNameSalida(5));
-            } catch (FileNotFoundException | UnsupportedEncodingException ex) {
+                hash = File_Reader.getHashFromFile(getFilePath(),RSA.cargarPublica(getPrivateKeyPath()));
+            } catch (NoSuchAlgorithmException | InvalidKeySpecException ex) {
+                Logger.getLogger(Main.class.getName()).log(Level.SEVERE, null, ex);
+            } catch (Exception ex) {
                 Logger.getLogger(Main.class.getName()).log(Level.SEVERE, null, ex);
             }
-            JOptionPane.showMessageDialog(null,"We have ended");
+            message = message.replaceAll("\n","");
+            String new_hash = Hash.getSha(message);
+
+            if(new_hash.equalsIgnoreCase(hash))
+                JOptionPane.showMessageDialog(null,"Correct text!");
+            else
+                JOptionPane.showMessageDialog(null,"The text has been modified!");
         }
+        /************************************************************************************************/
         
-        if(A.isSelected() && !I.isSelected() && !C.isSelected())
+        /*************************************************************************************************/
+        if(C.isSelected() && I.isSelected() && A.isSelected())
         {
-            String new_message="";
-            new_message+=cypher_message+"\n";
-            new_message+=cypher_key+"\n";
-            JOptionPane.showMessageDialog(null,"We have ended");
+            try {
+                if(!isEmpty())
+                {
+                    if(jComboBox1.getSelectedIndex()==0)
+                    {
+                        decrypted = AES.decrypt(SET_KEY.getText(),message);
+                        i=3;
+                    }
+                    else
+                    {
+                        decrypted = DES.decrypt(SET_KEY.getText(),message);
+                        i=4;
+                    }
+                    
+                    message = File_Reader.separateTextNDHash(decrypted).get(0).toString();
+                    message = message.replaceAll("\n","");
+                    cypher_hash = File_Reader.separateTextNDHash(decrypted).get(1).toString(); 
+                    hash = RSA.fromByteToString(RSA.decrypt(RSA.cargarPublica(getPrivateKeyPath()), RSA.fromStringToByte(cypher_hash)));
+                    String new_hash = Hash.getSha(message);
+                    
+                    if(new_hash.equalsIgnoreCase(hash))
+                        JOptionPane.showMessageDialog(null,"Correct!");
+                    else
+                        JOptionPane.showMessageDialog(null,"The message has been modify!");
+                    
+                    Archivo.escribirArchivo(message, getNameSalida(i));
+                    JOptionPane.showMessageDialog(null,"Check the output");
+                }
+            } catch (Exception ex) {
+                Logger.getLogger(Main.class.getName()).log(Level.SEVERE, null, ex);
+            }
         }
-    }//GEN-LAST:event_CypherActionPerformed
+        /************************************************************************************************/
+        
+        /************************************************************************************************/
+        if(C.isSelected() && I.isSelected() && !A.isSelected())
+        {
+            try {
+                if(!isEmpty())
+                {
+                    if(jComboBox1.getSelectedIndex()==0)
+                    {
+                        decrypted = AES.decrypt(SET_KEY.getText(),message);
+                        i=3;
+                    }
+                    else
+                    {
+                        decrypted = DES.decrypt(SET_KEY.getText(),message);
+                        i=4;
+                    }
+                    
+                    if(Hash.verifySha2(decrypted))
+                        JOptionPane.showMessageDialog(null,"Correct!!");
+                    else
+                        JOptionPane.showMessageDialog(null,"The text has been modified!!");
+                    
+                    Archivo.escribirArchivo(decrypted, getNameSalida(i));
+                }
+            } catch (Exception ex) {
+                Logger.getLogger(Main.class.getName()).log(Level.SEVERE, null, ex);
+            }
+        }
+        /*************************************************************************************************/
+    }//GEN-LAST:event_CheckActionPerformed
 
     public void setPublicKeyPath(String path){ this.public_key_path=path;}
     
@@ -559,8 +899,10 @@ public class Main extends javax.swing.JFrame {
             return path_mensaje+"\\m_AESD.txt";
         else if(n==4)
             return path_mensaje+"\\m_DESD.txt";
-        else
+        else if(n==5)
             return path_mensaje+"\\integridad.txt";
+        else
+            return path_mensaje+"\\integridadD.txt";
     }
     
     
@@ -612,6 +954,9 @@ public class Main extends javax.swing.JFrame {
     private javax.swing.JLabel BG1;
     private javax.swing.JLabel BG2;
     private javax.swing.JRadioButton C;
+    private javax.swing.JButton Check;
+    private javax.swing.JButton CreateHash;
+    private javax.swing.JRadioButton Create_hash;
     private javax.swing.JButton Cypher;
     private javax.swing.JRadioButton Decrypt;
     private javax.swing.JRadioButton Encrypt;
@@ -630,6 +975,7 @@ public class Main extends javax.swing.JFrame {
     private javax.swing.JLabel Select_services;
     private javax.swing.JButton Verify;
     private javax.swing.JComboBox jComboBox1;
+    private javax.swing.JRadioButton verify;
     // End of variables declaration//GEN-END:variables
 
     private String getFilePAth() {

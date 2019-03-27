@@ -51,6 +51,13 @@ public class RSA {
         return cipher.doFinal(encrypted);
     }
     
+    public static byte[] decrypt(PublicKey privateKey, byte [] encrypted) throws Exception {
+        Cipher cipher = Cipher.getInstance("RSA");  
+        cipher.init(Cipher.DECRYPT_MODE, privateKey);
+        
+        return cipher.doFinal(encrypted);
+    }
+    
     public static KeyPair generarClave() throws NoSuchAlgorithmException {
         final int keySize = 1024;
         KeyPairGenerator keyPairGenerator = KeyPairGenerator.getInstance("RSA");
