@@ -1,0 +1,90 @@
+1. Prueba de integración:
+
+Objetivo: 
+
+Verificar que los componentes del software trabajen eficientemente en conjunto.
+
+Descripción:
+
+La prueba de integración es una extensión lógica de las pruebas unitarias. 
+Dos unidades que ya han sido testeadas y combinadas en un componente y su interface 
+son testeadas entre ellas. Un componente, en este ejemplo, se refiere a un agregado 
+que está integrado en más de una unidad, estas son combinadas en componentes, que son 
+agregadas por orden en partes mas grandes del programa. El motivo de las pruebas de integración 
+es de verificar la funcionalidad y la seguridad entre los componentes que han sido integrados. 
+Identifica los problemas que ocurren cuando las unidades se combinan. Esto es particularmente 
+beneficioso porque determina cómo de eficientes son los tests trabajando juntos. Recuerda que no 
+importanta como de eficiente cada test funcione, si no están propiamente integrados. Afecta a la 
+funcionalidad del programa de software. Además, es importante conocer que las pruebas de integración 
+están basados en pruebas unitarias con base de datos u otra biblioteca ajena de terceras partes.
+
+Softwares a utilizar: Mocha, Jasmine, Jest y Ava
+
+Resultados:
+
+Esperamos ver que cada uno de nuestros componentes funcione bien en conjunto.
+
+2. Prueba de mantenibilidad:
+
+Objetivo:
+
+Saber si nuestro software es mantenible.
+
+Descripción:
+
+Para saber si un software es mantenible se debe ser de fácil entendimiento
+a parte de tener la caracteristica de que sea facil de modificar usando técnicas
+de programacion para este objetivo. Tambien debe tener una complejidad ciclomatica 
+baja para que asi no haya tantos errores el código
+
+Softwares: Sonar
+
+Resultados:
+
+Muy muy pocos errores en sonar sin ser crítico alguno y una complejidad ciclomatica por debajo de 15
+
+3. Prueba de estres:
+
+Objetivo:
+
+Saber cuantos usuarios soporta nuestro servidor.
+
+Descripción:
+
+Esta evaluación pone a prueba la robustez y la confiabilidad del software 
+sometiéndolo a condiciones de uso extremas. Entre estas condiciones se incluyen 
+el envío excesivo de peticiones y la ejecución en condiciones de hardware limitadas. 
+El objetivo es saturar el programa hasta un punto de quiebre donde aparezcan bugs (defectos) 
+potencialmente peligrosos.
+
+Software a utilizar: Jmeter, Gatling
+
+Resultados:
+
+Que nuestro servidor sirva para al menos 100 personas en el sistema al mismo tiempo sin que
+se bugge.
+
+4. Pruebas de portabilidad:
+
+Objetivo:
+
+Probar que nuestro software sea de facil instalación y pueda servir en todos los dispositivos para
+el cual fue diseñado.
+
+Descripción:
+
+Capacidad del producto o componente de ser transferido de forma efectiva y eficiente de un 
+entorno hardware, software, operacional o de utilización a otro. Esta característica se subdivide 
+a su vez en las siguientes subcaracterísticas:
+
+Adaptabilidad. Capacidad del producto que le permite ser adaptado de forma efectiva y eficiente a 
+diferentes entornos determinados de hardware, software, operacionales o de uso.
+Capacidad para ser instalado. Facilidad con la que el producto se puede instalar y/o desinstalar de 
+forma exitosa en un determinado entorno.
+Capacidad para ser reemplazado. Capacidad del producto para ser utilizado en lugar de otro producto 
+software determinado con el mismo propósito y en el mismo entorno.
+
+Resultados:
+
+Que el sistema sirva en los dispositivos móviles con Android desde la primera version que
+elegimos hasta la mas actual

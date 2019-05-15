@@ -740,10 +740,10 @@ public class Main extends javax.swing.JFrame {
     }
     
     private void CheckActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_CheckActionPerformed
-        String decrypted = null;
+        String decrypted;
         String message=null;
         String hash = null,cypher_hash;
-        int i=0;
+        int i;
         try {
             message = File_Reader.ReadTextNDKey(getFilePath()).get(0).toString();
         } catch (IOException ex) {
@@ -778,8 +778,6 @@ public class Main extends javax.swing.JFrame {
             } catch (Exception ex) {
                 Logger.getLogger(Main.class.getName()).log(Level.SEVERE, null, ex);
             }
-            
-            
         }
         /***********************************************************************************************/
         
@@ -799,7 +797,10 @@ public class Main extends javax.swing.JFrame {
             } catch (Exception ex) {
                 Logger.getLogger(Main.class.getName()).log(Level.SEVERE, null, ex);
             }
-            message = message.replaceAll("\n","");
+            StringBuilder aa = new StringBuilder();
+            aa.append(message);
+            aa.deleteCharAt(aa.length()-1);
+            message = aa.toString();
             String new_hash = Hash.getSha(message);
 
             if(new_hash.equalsIgnoreCase(hash))
@@ -827,7 +828,10 @@ public class Main extends javax.swing.JFrame {
                     }
                     
                     message = File_Reader.separateTextNDHash(decrypted).get(0).toString();
-                    message = message.replaceAll("\n","");
+                    StringBuilder aa = new StringBuilder();
+                    aa.append(message);
+                    aa.deleteCharAt(aa.length()-1);
+                    message = aa.toString();
                     cypher_hash = File_Reader.separateTextNDHash(decrypted).get(1).toString(); 
                     hash = RSA.fromByteToString(RSA.decrypt(RSA.cargarPublica(getPrivateKeyPath()), RSA.fromStringToByte(cypher_hash)));
                     String new_hash = Hash.getSha(message);

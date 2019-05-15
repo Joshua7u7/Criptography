@@ -1,0 +1,39 @@
+Requerimientos funcionales
+
+1.  Debe tener un modulo de registro 
+2.  Debe tener un modulo de login
+3.  Debe permitir editar los datos de usuario
+4.  Debe permitir visualizar estados de cuenta
+5.  Debe permitir depositar saldo
+6.  Debe permitir retirar saldo
+8.  Debe generar notificaciones
+9.  Debe enviar notificaciones
+10. Debe permitir recuperar contraseñas
+11. Debe permitir bloquear cuenta
+12. Debe permitir eliminar cuenta
+
+Requerimientos no funcionales
+
+1.  Se debe sacar el hash de la contraseña para guardarla en la BD
+2.  Se debe cifrar el saldo de la persona
+3.  Se deben cifrar las notificaciones 
+4.  Se debe crear una firma digital para verificar la autenticidad
+5.  Debe crear tokens para las distintas operaciones
+6. Debe ser seguro
+7. Debe ser rápido en las respuestas (1 segundo lo máximo)
+8. Se debe tener internet para hacer todas las operaciones 
+
+
+Restricciones
+
+1.  Solo los usuarios autorizados podrán acceder a distintas partes del sistema
+2.  A los 3 intentos de acceder a una cuenta no se puede se bloqueará la cuenta
+3.  No se puede tener más de 1000 pesos en la cuenta
+4.  No se puede tener mas de 1 cuenta con el mismo usuario registrado
+6.  Debe ser mobil y web
+7.  Para la parte movil se debe usaar Android studio en su última versión
+8.  La arquitectura para la parte web debe ser MVC
+9.  Se usará HTML en su versión 5
+10. Se usará CSS y Bootstrap para el front end
+11. Se usará Node.js para el back end
+12. Se usará SQL server para la base de datos
